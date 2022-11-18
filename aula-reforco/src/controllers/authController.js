@@ -6,9 +6,7 @@ const SECRET = process.env.SECRET; // importei a secret para ser usada pelo JWT 
 
 const login = (req, res) => {
     try {
-        
         UserSchema.findOne({ email: req.body.email }, (error, user) => {
-            console.log("USUARIO EH ESSE AKI", user)
             if(!user) {
                 return res.status(404).send({
                     message: 'Usuário não encontrado',
@@ -20,21 +18,20 @@ const login = (req, res) => {
             // eu preciso saber se as senhas deles tambem sao iguais
             
             const validPassword = bcrypt.compareSync(req.body.password, user.password)
-            console.log("A SENHA EH VALIDA AMOR?", validPassword)
             
             if(!validPassword){
                 return res.status(401).send({
-                message: "Amor, sua senha esta invalida",
+                message: "Senha inválida",
                 statusCode: 401
                 })
             }
             
             // jwt.sign(nome do usuário, SEGREDO)
             const token = jwt.sign({name: user.name}, SECRET);
-            console.log("O TOKEN EH ESSE AKI", token)
+            console.log("Aqui o seu token:", token)
             
             res.status(200).send({
-                message: "Amor, vc esta logadah",
+                message: "Você está logado(a)",
                 token
             })
         })

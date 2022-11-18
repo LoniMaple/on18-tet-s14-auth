@@ -10,15 +10,15 @@ const SECRET = process.env.SECRET;
 // quero checar a autorizacao do usuario
 exports.checkAuth = (req, res, next) => {
     
-    const authHeader = req.get('authorization');
-    if (!authHeader) {
+    const checaSeTemAutorizacaoNaHeader = req.get('authorization');
+    if (!checaSeTemAutorizacaoNaHeader) {
         return res.status(401).send({
             message: 'Sem autorizacao amore',
             statusCode: 401
         });
     }
     
-    const token = authHeader.split(' ')[1];
+    const token = checaSeTemAutorizacaoNaHeader.split(' ')[1];
     console.log("tokenzinhooo", token)
     
     if (!token) {
